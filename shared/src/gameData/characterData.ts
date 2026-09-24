@@ -2149,6 +2149,7 @@ export const CHARACTERS: CharacterDefinition[] = [
         type: "triggerOnDeath",
         causedByDeath: true,
       },
+      { name: "banshee has ability", type: "hasAbility", persistOnDeath: true },
     ],
     setup: false,
     delusional: false,
@@ -2157,6 +2158,7 @@ export const CHARACTERS: CharacterDefinition[] = [
     imageSrc: "banshee.png",
     firstNight: null,
     otherNight: {
+      setReminders: ["banshee has ability"],
       reminder:
         "If the Banshee is killed by the Demon, place the HAS ABILITY reminder token next to the Banshee and say 'The Banshee has awoken' or something similarly dramatic. The Banshee may nominate twice per day, but it is the player’s responsibility to remember how many times they have nominated. The Banshee may raise two hands when voting. When counting the votes, count each hand as a vote.",
       order: 85,
@@ -2189,12 +2191,13 @@ export const CHARACTERS: CharacterDefinition[] = [
     name: "Knight",
     edition: "exp",
     team: "Townsfolk",
-    reminders: [],
+    reminders: [{ name: "knight knows", type: "info" }],
     setup: false,
     delusional: false,
     ability: "You start knowing 2 players that are not the Demon.",
     imageSrc: "knight.png",
     firstNight: {
+      setReminders: ["knight knows", "knight knows"],
       reminder:
         "During setup, mark two non-Demon players with the Knight’s KNOW reminders. During the first night, wake the Knight. Point to the two players marked KNOW.",
       order: 37,
@@ -2224,14 +2227,15 @@ export const CHARACTERS: CharacterDefinition[] = [
     name: "Steward",
     edition: "exp",
     team: "Townsfolk",
-    reminders: [],
+    reminders: [{ name: "steward knows", type: "info" }],
     setup: false,
     delusional: false,
     ability: "You start knowing 1 good player.",
     imageSrc: "steward.png",
     firstNight: {
+      setReminders: ["steward knows"],
       reminder:
-        "While preparing the first night, put the KNOW reminder by any good character token. During the first night, wake the Steward. Point to the player marked KNOW Put the Steward to sleep.",
+        "While preparing the first night, put the KNOW reminder by any good character token. During the first night, wake the Steward. Point to the player marked KNOW. Put the Steward to sleep.",
       order: 36,
     },
     otherNight: null,
@@ -2241,10 +2245,7 @@ export const CHARACTERS: CharacterDefinition[] = [
     name: "Village Idiot",
     edition: "exp",
     team: "Townsfolk",
-    reminders: [
-      { name: "vidiot", type: "info" },
-      { name: "drunk idiot", type: "drunk" },
-    ],
+    reminders: [{ name: "drunk idiot", type: "drunk", target: "self" }],
     setup: true,
     delusional: false,
     ability:
@@ -2252,23 +2253,14 @@ export const CHARACTERS: CharacterDefinition[] = [
     imageSrc: "village_idiot.png",
     firstNight: {
       reminder:
-        "While setting up the game, before putting the character tokens in the bag, replace zero, one or two Townsfolk tokens with Village Idiot tokens. While preparing the first night, mark one Village Idiot with the DRUNK reminder. During each night, wake any Village Idiot. They point to a player. Give a thumbs up or a thumbs down. Put that Village Idiot to sleep. Repeat until all Village Idiots have acted.",
+        "During setup, replace zero, one or two Townsfolk tokens with Village Idiot tokens. If any extra Village Idiots were added, mark one of them DRUNK. Wake each Village Idiot separately. They choose a player; give a thumbs up or down for that player's alignment.",
       order: 35,
       setReminders: ["drunk idiot"],
-      playerMessage: {
-        type: "reveal-role",
-        count: 1,
-      },
     },
     otherNight: {
       reminder:
         "During each night, wake any Village Idiot. They point to a player. Give a thumbs up or a thumbs down. Put that Village Idiot to sleep. Repeat until all Village Idiots have acted.",
       order: 35,
-      setReminders: ["vidiot"],
-      playerMessage: {
-        type: "reveal-role",
-        count: 1,
-      },
     },
   },
   {
@@ -2463,7 +2455,6 @@ export const CHARACTERS: CharacterDefinition[] = [
       reminder:
         "If the Hatter dies, mark them with the TEA PARTY TONIGHT reminder. During that night, wake the Minions and Demon. Show them the THIS CHARACTER SELECTED YOU info token, then the Hatter token. Each player either shakes their head no or points to another character of the same type as their current character. If a second player would end up with the same character as another player, shake your head no and gesture for them to choose again. Put them to sleep. Remove the TEA PARTY TONIGHT reminder. Change each player to the character they chose.",
       order: 5,
-      kills: true,
     },
   },
   {
@@ -2471,20 +2462,17 @@ export const CHARACTERS: CharacterDefinition[] = [
     name: "Ogre",
     edition: "exp",
     team: "Outsider",
-    reminders: [],
+    reminders: [{ name: "ogre friend", type: "info", target: "other" }],
     setup: false,
     delusional: false,
     ability:
       "On your 1st night, choose a player (not yourself): you become their alignment (you don't know which) even if drunk or poisoned.",
     imageSrc: "ogre.png",
     firstNight: {
+      setReminders: ["ogre friend"],
       reminder:
-        "During the first night, wake the Ogre. The Ogre points to a player. Put the Ogre to sleep. If the Ogre pointed to an evil player, flip the Ogre's character token upside down to represent that the Ogre is evil.",
+        "Wake the Ogre. They choose another player. Privately set the Ogre's alignment to match that player's alignment, even if the Ogre is drunk or poisoned. Do not tell the Ogre their alignment.",
       order: 66,
-      playerMessage: {
-        type: "role-change",
-        alignmentChange: true,
-      },
     },
     otherNight: null,
   },
@@ -2493,7 +2481,7 @@ export const CHARACTERS: CharacterDefinition[] = [
     name: "Zealot",
     edition: "exp",
     team: "Outsider",
-    reminders: [{ name: "mustvote", type: "info", causedByDeath: true }],
+    reminders: [],
     setup: false,
     delusional: false,
     ability:
@@ -2538,7 +2526,6 @@ export const CHARACTERS: CharacterDefinition[] = [
       reminder:
         "When the Plague Doctor dies, place a Minion character token in the center of the left side of Grimoire. Mark this with the Plague Doctor’s STORYTELLER ABILITY reminder. If applicable, add a night token to the night sheet. When this Minion would normally act, the relevant choices are made by the Storyteller.",
       order: 5,
-      kills: true,
     },
   },
   {
@@ -2720,15 +2707,16 @@ export const CHARACTERS: CharacterDefinition[] = [
     name: "Boffin",
     edition: "exp",
     team: "Minion",
-    reminders: [],
+    reminders: [{ name: "boffin ability", type: "info", target: "other" }],
     setup: true,
     delusional: false,
     ability:
       "The Demon (even if drunk or poisoned) has a not-in-play good character's ability. You both know which.",
     imageSrc: "boffin.png",
     firstNight: {
+      setReminders: ["boffin ability"],
       reminder:
-        "While setting up the game, before putting character tokens in the bag, make any changes that are indicated in brackets on the Demon's two character abilities. Afterwards, place this second character token by the Demon character token. During the 1st night, wake the Boffin and the Demon. Show the THIS CHARACTER SELECTED YOU info token, then the Boffin token, then the good character token. Place this second character token by the Demon character token. Treat the Demon player as if they had this character ability, as well as their own Demon ability.",
+        "During setup, choose a not-in-play good ability and apply its bracketed setup changes. Place that character token by the Demon. On the first night, show the Boffin and Demon the Boffin token and the chosen good character token. The Demon has this ability in addition to their own, even if the Demon is drunk or poisoned.",
       order: 7,
     },
     otherNight: null,
@@ -2738,18 +2726,23 @@ export const CHARACTERS: CharacterDefinition[] = [
     name: "Harpy",
     edition: "exp",
     team: "Minion",
-    reminders: [],
+    reminders: [
+      { name: "harpy mad", type: "mad", dayReminder: true },
+      { name: "harpy second", type: "info", dayReminder: true },
+    ],
     setup: false,
     delusional: false,
     ability:
       "Each night, choose 2 players: tomorrow, the 1st player is mad that the 2nd is evil, or one or both might die.",
     imageSrc: "harpy.png",
     firstNight: {
+      setReminders: ["harpy mad", "harpy second"],
       reminder:
         "Each night, wake the Harpy. The Harpy points to one player, then another player. Mark the first player with the MAD reminder and the second player with the 2ND reminder. Put the Harpy to sleep. Wake the player marked MAD. Show the THIS CHARACTER SELECTED YOU info token then the Harpy token, then point to the player marked 2ND. Put the player marked “Mad” to sleep. Tomorrow, if the player marked “mad” is not mad that the player marked “2nd” is evil, you may kill one or both players.",
       order: 26,
     },
     otherNight: {
+      setReminders: ["harpy mad", "harpy second"],
       reminder:
         "Each night, wake the Harpy. The Harpy points to one player, then another player. Mark the first player with the MAD reminder and the second player with the 2ND reminder. Put the Harpy to sleep. Wake the player marked MAD. Show the THIS CHARACTER SELECTED YOU info token then the Harpy token, then point to the player marked 2ND. Put the player marked “Mad” to sleep. Tomorrow, if the player marked “mad” is not mad that the player marked “2nd” is evil, you may kill one or both players.",
       order: 26,
@@ -2760,18 +2753,27 @@ export const CHARACTERS: CharacterDefinition[] = [
     name: "Organ Grinder",
     edition: "exp",
     team: "Minion",
-    reminders: [],
+    reminders: [
+      {
+        name: "organ grinder drunk",
+        type: "drunk",
+        target: "self",
+        dayReminder: true,
+      },
+    ],
     setup: false,
     delusional: false,
     ability:
       "All players keep their eyes closed when voting and the vote tally is secret. Each night, choose if you are drunk until dusk.",
     imageSrc: "organ_grinder.png",
     firstNight: {
+      setReminders: ["organ grinder drunk"],
       reminder:
         "Each night, wake the Organ Grinder. The Organ Grinder either nods or shakes their head. If they nod their head, mark them with the DRUNK reminder. If they shake their head, remove their DRUNK reminder. Put the Organ Grinder to sleep. When a player has been nominated and a vote is just about to begin, and the Organ Grinder is sober, ask all players to close their eyes. If they ask why, tell them that an Organ Grinder is in play. When counting votes, do so silently. Afterwards, do not reveal how many players voted, nor if the nominee is “about to die”. If there were enough votes to execute the nominee, mark them with the ABOUT TO DIE reminder. Ask players to open their eyes, and if there are any more nominations. When nominations are closed, declare that the player marked ABOUT TO DIE, is executed.",
       order: 70,
     },
     otherNight: {
+      setReminders: ["organ grinder drunk"],
       reminder:
         "Each night, wake the Organ Grinder. The Organ Grinder either nods or shakes their head. If they nod their head, mark them with the DRUNK reminder. If they shake their head, remove their DRUNK reminder. Put the Organ Grinder to sleep. When a player has been nominated and a vote is just about to begin, and the Organ Grinder is sober, ask all players to close their eyes. If they ask why, tell them that an Organ Grinder is in play. When counting votes, do so silently. Afterwards, do not reveal how many players voted, nor if the nominee is “about to die”. If there were enough votes to execute the nominee, mark them with the ABOUT TO DIE reminder. Ask players to open their eyes, and if there are any more nominations. When nominations are closed, declare that the player marked ABOUT TO DIE, is executed.",
       order: 70,
@@ -2782,22 +2784,17 @@ export const CHARACTERS: CharacterDefinition[] = [
     name: "Summoner",
     edition: "exp",
     team: "Minion",
-    reminders: [
-      {
-        name: "creates demon",
-        type: "info",
-        dayTrigger: false,
-        dayReminder: false,
-        target: "other",
-      },
-      abilitySpent("creates demon"),
-    ],
-    setup: false,
+    reminders: [],
+    setup: true,
     delusional: false,
     ability:
       "You get 3 bluffs. On the 3rd night, choose a player: they become an evil Demon of your choice. [No Demon]",
-    imageSrc: "summoner.png",
-    firstNight: null,
+    imageSrc: "summoner.webp",
+    firstNight: {
+      reminder:
+        "During setup, replace the Demon with a Townsfolk. On the first night, show the Summoner 3 not-in-play characters as bluffs. The Summoner creates an evil Demon on the third night, not before.",
+      order: 20,
+    },
     otherNight: {
       reminder:
         "The Summoner creates a Demon on the 3rd night. During the night, if the Summoner has a NIGHT 3 reminder, wake the Summoner. They point at a player, and to a Demon icon on the character sheet. Put the Summoner to sleep. Wake the chosen player. Show the YOU ARE info token, then the Demon token. Show the YOU ARE info token, then give a thumbs down. Replace their character token with the Demon token and put the new Demon to sleep.",
@@ -2828,25 +2825,14 @@ export const CHARACTERS: CharacterDefinition[] = [
     edition: "exp",
     team: "Minion",
     reminders: [
-      {
-        name: "makes wish",
-        type: "info",
-        dayTrigger: true,
-        dayReminder: true,
-        target: "other",
-      },
-      abilitySpent("makes wish"),
+      { ...abilitySpent("wizard"), dayTrigger: true, dayReminder: true },
     ],
     setup: false,
     delusional: false,
     ability:
       "Once per game, choose to make a wish. If granted, it might have a price & leave a clue as to its nature.",
     imageSrc: "wizard.png",
-    firstNight: {
-      reminder:
-        "When the Wizard makes a wish, either verbally or via text, decide whether to accept or decline the wish. If the wish is declined, prompt the Wizard to wish again, or tell them that they have no more wishes. If the wish is granted, say “Your wish is granted.” or “Your wish is my command”, or nod, or otherwise signal that their wish is accepted. Now or later, you may make a price: make whatever mechanical adjustments to the game you feel are necessary for the wish to be balanced. Now or later, you may declare publicly that the Wizard has made a wish, then give the good team a clue about what was wished.",
-      order: 70,
-    },
+    firstNight: null,
     otherNight: null,
   },
   {
@@ -2856,23 +2842,27 @@ export const CHARACTERS: CharacterDefinition[] = [
     team: "Minion",
     reminders: [
       {
-        name: "poisons town",
-        type: "info",
-        dayTrigger: false,
+        name: "xaan poisoned",
+        type: "poison",
         dayReminder: true,
         target: "other",
       },
-      abilitySpent("poisons town"),
     ],
     setup: true,
     delusional: false,
     ability: "On night X, all Townsfolk are poisoned until dusk. [X Outsiders]",
     imageSrc: "xaan.png",
-    firstNight: null,
+    firstNight: {
+      reminder:
+        "If there was 1 Outsider at setup, poison every Townsfolk tonight until dusk. If there were no Outsiders, the Xaan never poisons anyone.",
+      order: 4,
+      setReminders: ["xaan poisoned"],
+    },
     otherNight: {
       reminder:
-        "On the night that equals the number of Outsiders in play when the game began, all Townsfolk players are poisoned.",
+        "On the night matching the number of Outsiders at setup, if the Xaan is alive and healthy, poison every Townsfolk until dusk. Changes to the Outsider count since setup do not change X.",
       order: 4,
+      setReminders: ["xaan poisoned"],
     },
   },
   {
@@ -3293,12 +3283,12 @@ export const CHARACTERS: CharacterDefinition[] = [
     team: "Traveler",
     reminders: [
       {
-        name: "gnome",
-        type: "hasAbility",
+        name: "gnome amigo",
+        type: "info",
         dayReminder: true,
+        target: "other",
       },
     ],
-    setupReminders: ["gnome"],
     setup: false,
     delusional: false,
     ability:
@@ -3408,8 +3398,8 @@ export const CHARACTERS: CharacterDefinition[] = [
     firstNight: null,
     otherNight: {
       reminder:
-        "The Ojo player points to a character icon on their character sheet. If that character is in play, that player dies—mark them with the “Dead” reminder. If that character is not in play, choose any player. That player dies—mark them with the “Dead” reminder. Put the Ojo to sleep.",
-      order: 24,
+        "The Al-Hadikhia may choose 3 players. Mark them 1, 2 and 3 in order. Wake each in turn, announce their name, and ask if they choose to live. They silently nod to live or shake their head to die; update their alive status accordingly. If all 3 are alive after their choices, all 3 die. At dawn, announce which chosen players are alive and which are dead.",
+      order: 33,
       kills: true,
     },
   },
