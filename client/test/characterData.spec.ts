@@ -62,6 +62,10 @@ describe("characterData", () => {
       expect(
         getCharacter("alhadikhia" as Role).otherNight?.reminder,
       ).not.toContain("Ojo");
+      expect(getCharacter("wizard" as Role).firstNight).toMatchObject({
+        reminder: expect.stringContaining("When the Wizard makes a wish"),
+        order: 70,
+      });
       expect(
         getCharacter("villageidiot" as Role).firstNight?.playerMessage,
       ).toBeUndefined();

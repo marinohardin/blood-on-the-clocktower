@@ -2832,7 +2832,11 @@ export const CHARACTERS: CharacterDefinition[] = [
     ability:
       "Once per game, choose to make a wish. If granted, it might have a price & leave a clue as to its nature.",
     imageSrc: "wizard.png",
-    firstNight: null,
+    firstNight: {
+      reminder:
+        "When the Wizard makes a wish, either verbally or via text, decide whether to accept or decline the wish. If the wish is declined, prompt the Wizard to wish again, or tell them that they have no more wishes. If the wish is granted, say “Your wish is granted.” or “Your wish is my command”, or nod, or otherwise signal that their wish is accepted. Now or later, you may make a price: make whatever mechanical adjustments to the game you feel are necessary for the wish to be balanced. Now or later, you may declare publicly that the Wizard has made a wish, then give the good team a clue about what was wished.",
+      order: 70,
+    },
     otherNight: null,
   },
   {
